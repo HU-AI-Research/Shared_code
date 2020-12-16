@@ -45,17 +45,18 @@ def sentiment(word):
             elif sentiment2 == '0':
                 sentiment2 = 0
             elif sentiment2 == '-':
-                sentiment2 = 1
+                sentiment2 = -1
             elif sentiment2 == '--':
-                sentiment2 = 2
+                sentiment2 = -2
             else:
                 sentiment2 = 'no'
             
             if sentiment2 == 'no' and sentiment1 == 'no':
-                sentiment = sentiment
+                sentiment = 0
             elif sentiment2 == 'no' and sentiment1 != 'no':
-                sentiment = sentiment + sentiment1
+                sentiment = sentiment1
             elif sentiment2 != 'no' and sentiment1 == 'no':
-                sentiment = sentiment + sentiment2
+                sentiment = sentiment2
             else:
-                sentiment = sentiment + ((sentiment1 + sentiment2)/2)
+                sentiment = (sentiment1 + sentiment2)/2
+    return sentiment
