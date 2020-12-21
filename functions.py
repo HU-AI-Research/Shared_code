@@ -19,44 +19,118 @@ def clean_words(word):
     word = word.replace("&", "")
     return word
 
-def sentiment(word):
-    words = open_file('all_assesssments.json')
-    for index, w in words['word'].items():
-        if w == word:
-            sentiment1 = words['evaluation1'][index]
-            sentiment2 = words['evaluation2'][index]
-            if sentiment1 == '++':
-                sentiment1 = 2
-            elif sentiment1 == '+':
-                sentiment1 = 1
-            elif sentiment1 == '0':
-                sentiment1 = 0
-            elif sentiment1 == '-':
-                sentiment1 = -1
-            elif sentiment1 == '--':
-                sentiment1 = -2
-            else:
-                sentiment1 = 'no'
+def add_sentiment(tweet):
+    #open the dictionary with the sentiment and set default sentiment to 0 (neutral)
+    words = open_file('sentiment_dict.json')
+    sentiment = 0
+    
+    #for each word in the tweet
+    for w in tweet.split():
+        #clean the word, remove hashtags, punctuation, etc. and make it lower case
+        w = clean_words(w)
+        w = w.lower()
+    
+        #loop through dictionary and see if we can find a match
+        for word in words:
+            if word == w:
+                #if we have a match add this sentiment to the total amount
+                sentiment += words[w]
+            else: pass
 
-            if sentiment2 == '++':
-                sentiment2 = 2
-            elif sentiment2 == '+':
-                sentiment2 = 1
-            elif sentiment2 == '0':
-                sentiment2 = 0
-            elif sentiment2 == '-':
-                sentiment2 = -1
-            elif sentiment2 == '--':
-                sentiment2 = -2
-            else:
-                sentiment2 = 'no'
-            
-            if sentiment2 == 'no' and sentiment1 == 'no':
-                sentiment = 0
-            elif sentiment2 == 'no' and sentiment1 != 'no':
-                sentiment = sentiment1
-            elif sentiment2 != 'no' and sentiment1 == 'no':
-                sentiment = sentiment2
-            else:
-                sentiment = (sentiment1 + sentiment2)/2
+    #after all words are matched return total sum of sentiment
     return sentiment
+
+def average_word_length(tweet):
+    #set defaults to 0
+    word_count = 0
+    word_length = 0
+
+    #for each word in the tweet that is received as input
+    for w in tweet.split():
+        #if the word is a mention or a link we don't count them
+        if w[0] == '@' or w[0:3] == 'http':
+            pass
+        else:
+            #clean the word, remove hashtags, punctuation, etc.
+            w = clean_words(w)
+            #add the length of this word to the total
+            word_length = word_length + len(w)
+            #add 1 to the count of the amount of words
+            word_count +=1
+    #calculate average by dividing word length with the amount of words
+    average_word_length = word_length/word_count
+
+    #returning the average
+    return average_word_length
+
+def longest_word(tweet):
+    #set default to 0
+    longest_word = 0
+
+    #for each word in the tweet that is received as input
+    for w in tweet.split():
+        #if the word is a mention or a link we don't count them
+        if w[0] == '@' or w[0:3] == 'http':
+            pass
+        else:
+            #clean the word, remove hashtags, punctuation, etc.
+            w = clean_words(w)
+            #calculate the length of the word (amount of characters)
+            word_length = len(w)
+
+            #if this word is the longest word replace the length of the longest word
+            if word_length > longest_word:
+                longest_word = word_length
+            else:
+                pass
+    #after for loop return result of the longest word
+    return longest_word
+
+def check_for_numbers(tweet):
+    #set default to 0
+    contains_digit = 0
+
+    #loop through words
+    for w in tweet.split():
+        #if the word is a mention or a link we don't count them
+        if w[0] == '@' or w[0:3] == 'http':
+            pass
+        else:
+            #loop through characters
+            for character in w:
+                if character.isdigit():
+                    #there is a digit
+                    contains_digit = 1
+                else: 
+                    pass
+    
+    return contains_digit
+
+def amount_of_numbers(tweet):
+    #set default to 0
+    digits = 0
+
+    #loop through words
+    for w in tweet.split():
+        #if the word is a mention or a link we don't count them
+        if w[0] == '@' or w[0:3] == 'http':
+            pass
+        else:
+            #loop through characters
+            for character in w:
+                if character.isdigit():
+                    #there is a digit
+                    digits += 1
+                else: 
+                    pass
+    
+    return digits
+
+def percentage_use(tweet):
+    #if percentage sign or word is in tweet than it's true (1) other is false (0)
+    if '%' in tweet:
+        return 1
+    elif 'percentage' in tweet:
+        return 1
+    else:
+        return 0
