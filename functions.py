@@ -40,6 +40,28 @@ def add_sentiment(tweet):
     #after all words are matched return total sum of sentiment
     return sentiment
 
+def word_count(tweet):
+    #set defaults to 0
+    word_count = 0
+    #for each word in the tweet that is received as input
+    for w in tweet.split():
+        #if the word is a mention or a link we don't count them
+        if '@' in w or 'http' in w:
+            pass
+        else:
+            #add 1 to the count of the amount of words
+            word_count +=1
+
+    #return the word count        
+    return word_count
+
+def contains_link(tweet):
+    #if a tweet contains a link (has 'http' in it) return 1 (true) otherwise return 0 (false)
+    if 'http' in tweet:
+        return 1
+    else:
+        return 0
+
 def average_word_length(tweet):
     #set defaults to 0
     word_count = 0
