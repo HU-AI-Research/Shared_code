@@ -70,7 +70,7 @@ def average_word_length(tweet):
     #for each word in the tweet that is received as input
     for w in tweet.split():
         #if the word is a mention or a link we don't count them
-        if w[0] == '@' or w[0:3] == 'http':
+        if '@' in w or 'http' in w:
             pass
         else:
             #clean the word, remove hashtags, punctuation, etc.
@@ -80,8 +80,10 @@ def average_word_length(tweet):
             #add 1 to the count of the amount of words
             word_count +=1
     #calculate average by dividing word length with the amount of words
-    average_word_length = word_length/word_count
-
+    if word_count != 0 and word_length != 0:
+        average_word_length = word_length/word_count
+    else:
+        average_word_length = 0
     #returning the average
     return average_word_length
 
@@ -92,7 +94,7 @@ def longest_word(tweet):
     #for each word in the tweet that is received as input
     for w in tweet.split():
         #if the word is a mention or a link we don't count them
-        if w[0] == '@' or w[0:3] == 'http':
+        if '@' in w or 'http' in w:
             pass
         else:
             #clean the word, remove hashtags, punctuation, etc.
@@ -115,7 +117,7 @@ def check_for_numbers(tweet):
     #loop through words
     for w in tweet.split():
         #if the word is a mention or a link we don't count them
-        if w[0] == '@' or w[0:3] == 'http':
+        if '@' in w or 'http' in w:
             pass
         else:
             #loop through characters
@@ -135,7 +137,7 @@ def amount_of_numbers(tweet):
     #loop through words
     for w in tweet.split():
         #if the word is a mention or a link we don't count them
-        if w[0] == '@' or w[0:3] == 'http':
+        if '@' in w or 'http' in w:
             pass
         else:
             #loop through characters
